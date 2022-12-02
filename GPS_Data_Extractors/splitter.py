@@ -1,5 +1,6 @@
 import os, csv,copy
 import datetime, calendar
+import pandas as pd
 
 csv_dir = "C:\\Users\\user\\Desktop\\Leiden\\Research Project\\experiment\\"
 csv_names = ["blue_20191121-143851.csv","orange_20191121-144424.csv","pink_20191121-144621.csv","white_20191121-144124.csv"]
@@ -49,7 +50,6 @@ def main(csv_path, dirName="", delim=","):
         i += 1
 
 def listToCsv(list,dir_name="",postfix=""):
-
     if dir_name != "":
         dir_name += "\\"
 
@@ -66,6 +66,16 @@ def listToCsv(list,dir_name="",postfix=""):
         sentence += "\n"
         file.write(sentence)
     file.close()
-for csv_name in csv_names:
-    csv_path = csv_dir + csv_name
-    main(csv_path,csv_name.split("_")[0])
+
+def location_file_data(f_path):
+    df = pd.read_csv(f_path)
+    df = df[['time','longitude', 'latitude']]
+    print(df)
+
+if __name__ == '__main__':
+    location_file_data(f'../data/Location.csv')
+    # for csv_name in csv_names:
+    #     csv_path = csv_dir + csv_name
+    #     main(csv_path,csv_name.split("_")[0])
+
+

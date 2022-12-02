@@ -97,5 +97,6 @@ def write_trip(trip, id, will_meet, index, path):
     f.close()
 
 
-main(0, 0, 1, n_trips=n_trips)
+# main(0, 0, 1, n_trips=n_trips)
+main(0, 0, 1, n_trips=10)
 # main(52.173701,4.462163,0.000937)
