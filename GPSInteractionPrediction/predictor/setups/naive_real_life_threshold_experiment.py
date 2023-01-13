@@ -1,3 +1,8 @@
+import sys
+
+sys.path.append(r'D:\School\Leiden\ResearchProject\code\msc-stage-interactions\GPSInteractionPrediction\predictor')
+
+from results_visualiser import performance_difference_visualisation, performance_bar_plot
 from glob import glob
 import working_with_files as wwf
 import utilities
@@ -7,14 +12,18 @@ distance_thresholds = list(range(1, 21))
 for i in range(len(distance_thresholds)):
     distance_thresholds[i] = round(distance_thresholds[i] * 0.5, 1)
 
-data_dir_path = "C:\\Users\\user\\Desktop\\Leiden\\Research_Project\\msc-stage-interactions\\data_real_life\\2_2\\"
+data_dir_path = r"D:\School\Leiden\ResearchProject\code\msc-stage-interactions\data\real_life_data\\"
 
 
 def main(data_dir):
 
+    print(data_dir)
+
     combinations = []
     for experiment_dir_path in glob(data_dir+"\\*\\"):
+        print(experiment_dir_path)
         for interaction_dir_path in glob(experiment_dir_path+"\\*\\"):
+            print(interaction_dir_path)
             trajectory_paths = glob(interaction_dir_path+"\\*.csv")
 
             dirs_in_trajectory_path = interaction_dir_path.split("\\")
@@ -26,6 +35,8 @@ def main(data_dir):
             trajectory_paths.append(has_interaction)
             combinations.append(trajectory_paths)
 
+    confusion_matrix = {}
+
     for distance_threshold in distance_thresholds:
         true_positive = 0
         false_positive = 0
@@ -35,7 +46,7 @@ def main(data_dir):
             label = combination[2]
 
             data_paths = [combination[0], combination[1]]
-            trajectories = utilities.extract_trajectories(data_paths)
+            trajectories = utilities.extract_trajectories(data_paths, True)
             data = naive.run(trajectories, distance_threshold=distance_threshold)
 
             if len(data["0,1"]) > 0:
@@ -52,11 +63,22 @@ def main(data_dir):
             elif label and not prediction:
                 false_negative += 1
 
+        confusion_matrix.update({distance_threshold: { "naive": {
+        "True Positive": true_positive,
+        "False Positive": false_positive,
+        "True Negative": true_negative,
+        "False Negative": false_negative,            
+            }}
+        })
+
         print(distance_threshold)
         print("True Positive:" + str(true_positive))
         print("False Positive:" + str(false_positive))
         print("True Negative:" + str(true_negative))
         print("False Negative:" + str(false_negative))
+
+    performance_bar_plot.bar_plot(confusion_matrix, 'Naive', save_dir=r"D:\School\Leiden\ResearchProject\code\msc-stage-interactions\GPSInteractionPrediction\predictor\setups\real_graphs\\")
+    performance_difference_visualisation.difference_in_threshold_graph(confusion_matrix, 'Naive', directory=r"D:\School\Leiden\ResearchProject\code\msc-stage-interactions\GPSInteractionPrediction\predictor\setups\real_graphs\\")
 
 def extract_interaction(interaction_dir):
     if interaction_dir == "interaction":

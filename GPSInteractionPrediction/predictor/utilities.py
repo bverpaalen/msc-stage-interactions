@@ -1,14 +1,19 @@
-import pandas
+import pandas as pd
 import datetime
 import json
 import os
 
 
-def extract_trajectories(paths):
+def extract_trajectories(paths, time_in_epoch=False):
     trajectories = []
     for path in paths:
-        trajectory = pandas.read_csv(path)
-        trajectory = trajectory.loc[:, [" Time", " Latitude", " Longitude"]]
+        trajectory = pd.read_csv(path)
+        # trajectory = trajectory.loc[:, ["time", "latitude", "longitude"]]
+        trajectory = trajectory.rename(columns={'time': ' Time','latitude': ' Latitude', 'longitude': ' Longitude'})
+
+        if time_in_epoch:
+            trajectory[' Time'] = trajectory[' Time'].map(lambda a: pd.to_datetime(a).strftime('%H:%M:%S'))
+
         trajectories.append(trajectory)
     return trajectories
 
@@ -16,25 +21,37 @@ def extract_trajectories(paths):
 def match_point(point_a, trajectory):
     time = point_a.get(" Time")
 
+    index = trajectory.index[trajectory[" Time"] == time].tolist()
+
+    if len(index) > 0:
+        index = index[0]
+    else:
+        return pd.DataFrame()
+    
+    point_b = trajectory.iloc[index]
+
     if time in list(trajectory[" Time"]):
         index = trajectory.index[trajectory[" Time"] == time].tolist()[0]
         point_b = trajectory.iloc[index]
         return point_b
     else:
-        return pandas.DataFrame()
+        return pd.DataFrame()
 
 
 def get_sec(t):
     h, m, s = t.split(":")
-    seconds = int(datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s)).total_seconds())
+    seconds = int(datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(float(s))).total_seconds())
     return seconds
 
 
 def replace_time_for_seconds(df):
     time_df = df[[" Time"]]
-    new_df = pandas.Series()
+    new_df = pd.Series()
     for index, time in time_df.iterrows():
-        seconds = get_sec(time.values[0])
+        timestamp = time.values[0]
+        # timestamp = datetime.datetime.fromtimestamp(timestamp / 1000000000)
+        # seconds = get_sec(str(timestamp).split(' ')[1])
+        seconds = get_sec(timestamp)
         new_df._set_value(index, seconds)
     return new_df
 

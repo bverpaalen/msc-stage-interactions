@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append(r'D:\School\Leiden\ResearchProject\code\msc-stage-interactions\GPSInteractionPrediction\predictor')
+
 from results_visualiser import map_visualisation, segmentation_visualization
 import utilities
 import working_with_files as wwf
@@ -5,10 +9,10 @@ from results_visualiser import time_space_figure
 from glob import glob
 import copy
 
-path = "C:\\Users\\user\\Desktop\\Leiden\\Research_Project\\msc-stage-interactions\\data_real_life\\2_2\\"
+path = r"D:\School\Leiden\ResearchProject\code\msc-stage-interactions\data\real_life_data\\"
 save_dir = "..\\real_graphs\\"
 
-path2 = "C:\\Users\\user\\Desktop\\Leiden\\Research_Project\\msc-stage-interactions\\Artificial_Data_Generator\\fake_experiments_v2\\"
+path2 = r"D:\School\Leiden\ResearchProject\code\msc-stage-interactions\data\real_life_data\1\no_interaction\mc_1.csv"
 save_dir2 = "..\\fake_graphs\\"
 
 def main(data_dir):

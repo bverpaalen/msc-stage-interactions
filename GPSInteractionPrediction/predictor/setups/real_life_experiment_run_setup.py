@@ -1,12 +1,17 @@
+import sys
+
+sys.path.append(r'D:\School\Leiden\ResearchProject\code\msc-stage-interactions\GPSInteractionPrediction\predictor')
+
 from glob import glob
 import predictor
 
-data_dir_path = "C:\\Users\\user\\Desktop\\Leiden\\Research_Project\\msc-stage-interactions\\data_real_life\\2_2\\"
+data_dir_path = r"D:\School\Leiden\ResearchProject\code\msc-stage-interactions\data\real_life_data"
 save_dir = ".\\real_results\\"
 
 
 def main(data_dir):
     cur_id = 0
+    print(data_dir)
     for experiment_dir_path in glob(data_dir+"\\*\\"):
         for interaction_dir_path in glob(experiment_dir_path+"\\*\\"):
             trajectory_paths = glob(interaction_dir_path+"\\*.csv")
@@ -17,7 +22,7 @@ def main(data_dir):
 
             has_interaction = extract_interaction(interaction_dir)
 
-            predictor.run(trajectory_paths, has_interaction, cur_id, trajectory_dir=save_dir)
+            predictor.run(trajectory_paths, has_interaction, cur_id, trajectory_dir=save_dir,create_distance_plot=True, time_in_epoch=True)
             cur_id += 1
 
 
@@ -29,5 +34,5 @@ def extract_interaction(interaction_dir):
     else:
         raise Exception("Interaction dir error")
 
-
+ 
 main(data_dir_path)

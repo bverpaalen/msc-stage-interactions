@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append(r'D:\School\Leiden\ResearchProject\code\msc-stage-interactions\GPSInteractionPrediction\predictor')
+
 import working_with_files
 from results_visualiser import performance_difference_visualisation, performance_bar_plot
 
@@ -111,6 +115,6 @@ def compare_test_distances(distances, test_distances, interaction_label, results
 
 
 main(
-    "C:\\Users\\user\\Desktop\\Leiden\\Research_Project\\msc-stage-interactions\\GPSInteractionPrediction\\predictor\\real_results\\",
-    "C:\\Users\\user\\Desktop\\Leiden\\Research_Project\\msc-stage-interactions\\GPSInteractionPrediction\\predictor\\real_graphs\\"
+    r"D:\School\Leiden\ResearchProject\code\msc-stage-interactions\GPSInteractionPrediction\predictor\setups\real_results\\",
+    r"D:\School\Leiden\ResearchProject\code\msc-stage-interactions\GPSInteractionPrediction\predictor\setups\real_graphs\\"
 )

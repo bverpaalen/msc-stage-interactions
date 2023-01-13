@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append(r'D:\School\Leiden\ResearchProject\code\msc-stage-interactions\GPSInteractionPrediction\predictor')
+
 import working_with_files
 import copy
 import json
@@ -23,6 +27,7 @@ def main(dir_path, save_dir, max_trajectory_in_files):
     files = working_with_files.get_files(dir_path, ".json")
 
     if not os.path.exists(save_dir):
+        print(save_dir)
         os.mkdir(save_dir)
 
     for file in files:
@@ -42,8 +47,8 @@ def main(dir_path, save_dir, max_trajectory_in_files):
 
             time_space_figure.time_space_figure(sub_trajectories, save_dir, prefix_file)
         color = colors[has_interaction]
-        #segmentation_visualization.single_trajectory_sub_trajectory_segmentation_visualisation(sub_trajectories_per_method, str(meta_data[0]) + "_" + str(meta_data[1]), method, color, save_dir)
-
+        print(file)
+        # segmentation_visualization.single_trajectory_sub_trajectory_segmentation_visualisation(sub_trajectories_per_method, str(meta_data[0]) + "_" + str(meta_data[1]), method = method, save_dir=save_dir)
 
     distribution.visualize_sub_trajectory_count(number_sub_trajectory_distribution_per_bool_interaction, save_dir, max_trajectory_in_files)
 
@@ -79,9 +84,9 @@ def extract_number_of_sub_trajectories_and_sub_trajectories(data):
 
 
 main(
-    "C:\\Users\\user\\Desktop\\Leiden\\Research_Project\\msc-stage-interactions\\GPSInteractionPrediction\\predictor\\real_results\\sub_trajectories\\",
-    "C:\\Users\\user\\Desktop\\Leiden\\Research_Project\\msc-stage-interactions\\GPSInteractionPrediction\\predictor\\real_graphs\\",
-    12
+    r"D:\School\Leiden\ResearchProject\code\msc-stage-interactions\GPSInteractionPrediction\predictor\setups\real_results\sub_trajectories\\",
+    r"D:\School\Leiden\ResearchProject\code\msc-stage-interactions\data\real_life_data\\",
+    30
 )
 
 #main(

@@ -7,7 +7,9 @@ def single_trajectory_sub_trajectory_segmentation_visualisation(sub_trajectories
         new_file_id = file_id + "_" + trajectory_id
 
         trajectory = sub_trajectories[trajectory_id]
+        print(save_dir)
         file_path = save_dir + dir_name + "\\" + method + "\\"
+        print(file_path)
         plot_single_trajectory(trajectory, new_file_id, file_path)
 
 
@@ -36,8 +38,9 @@ def plot_single_trajectory(trajectory, file_id, save_dir, postfix="segmentation_
     if not os.path.exists(save_dir):
         os.mkdir(save_dir)
     fig, ax = plt.subplots()
-    all_x = trajectory[0]
-    all_y = trajectory[1]
+
+    all_x = trajectory['0']
+    all_y = trajectory['1']
 
     for i in range(len(all_x)):
         xs_sub_trajectory = all_x[i]
